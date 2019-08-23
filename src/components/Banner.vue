@@ -1,0 +1,173 @@
+<template lang="pug">
+
+  //- 这里要用 v-show 不能用 v-if，否则会连环出错+异步死递归
+  banner.banner(v-show='banner && banner.length' :auto="5000", :loop="true", :speed="500", :dots="false", :watch-items="banner")
+    banner-item.banner-item(v-for='page in banner' :key='page.bid')
+      .img-container(@click='click(page)')
+        img(:src='page.pic' ondragstart="return false")
+      .text-container
+        button.banner-hint(v-if='page.schoolnumPrefix && page.schoolnumPrefix.indexOf("guest") === -1') 专属推荐
+        .banner-title {{ page.title }}
+        button.banner-link(v-if='page.hasUrl' @click='click(page)') 详情
+
+</template>
+<script>
+
+  import api from '@/api'
+  import formatter from "@/util/formatter"
+  import { Carousel, CarouselItem } from 'vue-l-carousel'
+
+  export default {
+    components: {
+      banner: Carousel,
+      'banner-item': CarouselItem
+    },
+    data() {
+      return {
+        banner: []
+      }
+    },
+    persist: {
+      banner: 'herald-default-banner'
+    },
+    created() {
+      this.reload()
+    },
+    methods: {
+      async reload() {
+        this.banner = await api.get('/api/banner')
+      },
+      async click({ hasUrl, bid }) {
+        if (hasUrl) {
+
+            let url = await api.put('/api/banner', { bid })
+            if(window.webkit){
+              window.webkit.messageHandlers.openURL.postMessage({"url": url})
+            }
+            else if (android) {
+              android.openURLinBrowser(url)
+            }
+          
+        } else {
+          this.$toasted.show('该横幅没有详情页面')
+        }
+      }
+    }
+  }
+
+</script>
+<style>
+
+  @import 'vue-l-carousel/dist/main.css';
+
+  .v-carousel {
+    padding-bottom: 15px
+  }
+
+  .v-carousel-dots {
+    bottom: 5px;
+  }
+
+  .v-carousel-dot {
+    width: 10px;
+    height: 3px;
+  }
+
+  .v-carousel-nav {
+    display: none;
+    padding: 0 12px;
+    font-size: 14px;
+    background: #fff;
+    color: var(--color-text-bold);
+  }
+
+  .v-carousel-items {
+    height: 100%
+  }
+
+</style>
+<style>
+
+  @import 'vue-l-carousel/dist/main.css';
+
+  .v-carousel-dots {
+    bottom: 5px;
+  }
+
+  .v-carousel-dot {
+    width: 10px;
+    height: 3px;
+  }
+
+  .v-carousel-nav {
+    display: none;
+    padding: 0 12px;
+    font-size: 14px;
+    background: #fff;
+    color: var(--color-text-bold);
+  }
+
+  .v-carousel-items {
+    height: 100%
+  }
+
+</style>
+<style lang="stylus" scoped>
+
+  .banner
+    overflow hidden
+    margin 0 -15px
+    width auto
+
+    .banner-item
+      height 100%
+
+      .img-container
+        position relative
+        margin 0 15px
+        // overflow hidden
+
+        &::after
+          display block
+          content ' '
+          width 100%
+          padding-top 40%
+
+        img
+          position absolute
+          left 0
+          right 0
+          top 0
+          bottom 0
+          width 100%
+          height 100%
+          object-fit cover
+          -webkit-user-select: none
+          -moz-user-select: none
+          -ms-user-select: none
+          user-select: none
+          cursor pointer
+          border-radius 3px
+          box-shadow 0 2px 10px 0 rgba(#000, .05)
+
+      .text-container
+        display flex
+        flex-direction row
+        padding 15px 20px
+        justify-content center
+        align-items baseline
+        min-width 0
+
+        * + *
+          margin-left 10px
+
+        .banner-title
+          color var(--color-text-regular)
+          font-size 14px
+          // white-space nowrap
+          overflow hidden
+          text-overflow ellipsis
+          line-height 1.7em
+          height 1.7em
+
+</style>
