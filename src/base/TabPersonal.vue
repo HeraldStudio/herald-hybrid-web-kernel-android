@@ -28,7 +28,7 @@
 
       .applet(@click='schoolCalendar()')
         img.icon(:src='appletSchoolCalenderImg')
-        .text 2018-2019 校历
+        .text 2019-2020 校历
         img.go-icon(:src='goImg')
       
       .applet(@click='pushRoute("/laundry", "洗衣房")')
@@ -87,10 +87,10 @@
       },
       schoolCalendar(){
         if(window.webkit){
-          window.webkit.messageHandlers.openURL.postMessage({"url": 'http://jwc.seu.edu.cn/_upload/article/images/97/ba/7bae1a694170b4ecb46a409d7eba/7934c5dc-81cf-4576-ba93-7ecb415b3b8e.jpg'})
+          window.webkit.messageHandlers.openURL.postMessage({"url": 'http://jwc.seu.edu.cn/_upload/article/images/94/41/086dd9d64c838a834c2cdc0e2d11/f7150e42-c090-4b53-8d6b-f5f22044b25f.jpg'})
         }
         else if(android) {
-          android.openURLinBrowser('http://jwc.seu.edu.cn/_upload/article/images/97/ba/7bae1a694170b4ecb46a409d7eba/7934c5dc-81cf-4576-ba93-7ecb415b3b8e.jpg')
+          android.openURLinBrowser('http://jwc.seu.edu.cn/_upload/article/images/94/41/086dd9d64c838a834c2cdc0e2d11/f7150e42-c090-4b53-8d6b-f5f22044b25f.jpg')
         }
       },
       logout() {
