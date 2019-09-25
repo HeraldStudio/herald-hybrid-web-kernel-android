@@ -27,6 +27,9 @@ import TabPersonal from '@/base/TabPersonal'
 import Curriculum from '@/pages/Curriculum'
 import CET from '@/pages/CET'
 import Classroom from '@/pages/Classroom'
+import LostAndFoundList from '@/pages/lostAndFound/List'
+import LostAndFoundCreate from '@/pages/lostAndFound/CreateOrUpdate'
+import LostAndFoundDetail from '@/pages/lostAndFound/Detail'
 
 Vue.use(Router)
 
@@ -179,6 +182,21 @@ export default new Router({
     {
       path: '*',
       redirect: '/home-tab'
+    },
+    {
+      path: '/lost-and-found',
+      name: '失物招领&寻物启事',
+      component: LostAndFoundList
+    },
+    {
+      path: '/lost-and-found/publish/:id?',
+      name: '发布消息',
+      component: LostAndFoundCreate
+    },
+    {
+      path: '/lost-and-found/detail/:id',
+      name: '查看详情',
+      component: LostAndFoundDetail
     },
     {
       path: '/',
