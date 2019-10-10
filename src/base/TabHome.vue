@@ -42,7 +42,7 @@
             if (android.getVersionCode() < parseInt(this.versionInfo['android'])) {
               return true
             }
-            if (!android.getVersionCode){
+            if (!android.getVersionCode()){
               return true
             }
           } catch(e) {

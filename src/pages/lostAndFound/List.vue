@@ -1,6 +1,5 @@
 <template lang="pug">
     .page.lost-and-found-list
-
       ul.info-bar
         button.info(:class='{ selected: column === "myself" }' @click="loadMyself") 我发布的
         button.info(:class='{ selected: column === "found" }' @click="loadFound") 失物招领
@@ -18,7 +17,7 @@
         button(v-if="column === 'myself'" class="selected" @click='loadMyself' style="margin-left:10px;height:30px; margin-top:15px;margin-bottom:0px;box-shadow:none; border-radius:4px;") 刷新
       .hint(v-if="column === 'myself'" style="margin-top:10px;color:'#e0e0e0'") （发布消息操作将带您往小猴偷米 PWA 进行，请同意小猴偷米打开浏览器，并且可能需要您在浏览器中再次输入登录信息）
       .lf-list(v-if="list.length > 0")
-        .lf-item(v-for="item in list" key="item._id" @click="detail(item._id)")
+        .lf-item(v-for="item in list" :key="item._id" @click="detail(item._id)")
           .line
           .lf-title
             .lf-type(:class="{ 'lf-type-lost':item.type==='lost', 'lf-type-found':item.type==='found'}") {{item.type === 'found' ? '失物招领' : '寻物启事'}} 
@@ -102,15 +101,16 @@ export default {
     publish() {
       //this.$router.push({ path: "/lost-and-found/publish" });
       //android.pushRoute("/lost-and-found/publish", '发布失物招领')
-      let url = `https://myseu.cn/app-support/#/lost-and-found/${api.token}`
+      let url = `https://myseu.cn/app-support/#/lost-and-found/${api.token}`;
       if (window.webkit) {
-        window.webkit.messageHandlers.openURL.postMessage({"url": url });
+        window.webkit.messageHandlers.openURL.postMessage({ url: url });
       } else if (android) {
         android.openURLinBrowser(url);
       }
     },
     detail(id) {
-      this.$router.push({ path: `/lost-and-found/detail/${id}` });
+      //this.$router.replace({ path: `/lost-and-found/detail/${id}` });
+      android.pushRoute(`/lost-and-found/detail/${id}`, "查看详情");
     },
     async loadMessageCount() {
       this.messageCount = await api.get("/api/lostAndFound/message");

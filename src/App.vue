@@ -40,7 +40,7 @@
       user: 'herald-default-user'
     },
     async created() {
-        api.get('/api/user').then(res => this.user = res)
+        api.get('/api/user').then(res => {this.user = res; window.user=res})
         api.get('/api/admin/admin').then(res => this.user.admin = res)
         api.get('/api/version').then(res => this.versionInfo = res)
     }
@@ -87,7 +87,6 @@
     margin 0
     padding 0
     background var(--color-tool-bg)
-    overflow hidden
   p, input, textarea
     margin-top 0
     margin-bottom 0

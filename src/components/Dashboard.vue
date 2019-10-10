@@ -23,7 +23,7 @@
         item(v-if='isUndergraduate' name='CET' route="/cet" title="四六级报名信息" value='›')
 
       .row(v-if='!tidyMode')
-        item(name='失物招领&寻物启事' route='/lost-and-found' :value='lostAndFoundMsg')
+        item(name='失物招领&寻物启事' route='/lost-and-found' :value='lostAndFoundMsg' title="失物招领&寻物启事")
 
 
 </template>

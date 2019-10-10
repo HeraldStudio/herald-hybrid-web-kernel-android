@@ -66,7 +66,7 @@ export default {
   },
   computed: {
     isOwn() {
-      return this.creator === this.$store.state.user.cardnum;
+      return this.creator === window.user.cardnum;
     }
   },
   methods: {
